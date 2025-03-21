@@ -28,8 +28,6 @@ simulation = app.Simulation(
     pdb.topology, mixedSystem, mm.VerletIntegrator(1.0 * unit.femtosecond), platform
 )
 
-#
-
 # Create the ASE calculator
 atoms = openmm_topology_to_ase_atoms(pdb.topology, pdb.positions)
 
