@@ -34,7 +34,7 @@ def openmm_topology_to_ase_atoms(openmm_topology, positions=None):
     atoms.set_chemical_symbols(symbols)
     atoms.set_atomic_numbers(atomic_numbers)
     if positions is not None:
-        positions = np.array(positions.value_in_unit(mm.unit.nanometer)) * units.nm
+        positions = np.array(positions.value_in_unit(mm.unit.angstrom)).tolist()
         atoms.set_positions(positions)
     atoms.set_masses(masses)
     atoms.set_cell(cell)

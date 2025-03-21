@@ -42,7 +42,7 @@ class OpenMMCalculator(Calculator):
             self._context.setPositions(atoms.get_positions() * mm.unit.angstrom)
 
             # Compute the potential energy
-            energy = self._context.getState(getEnergy=True).getPotentialEnergy()
+            energy = self._context.getState(getEnergy=True).getPotentialEnergy().value_in_unit(mm.unit.kilojoule_per_mole)
 
             # Store the energy in the results dictionary
             self.results["energy"] = energy * units.kJ / units.mol
@@ -51,11 +51,10 @@ class OpenMMCalculator(Calculator):
             self._context.setPositions(atoms.get_positions() * mm.unit.angstrom)
 
             # Compute the forces
-            forces = self._context.getState(getForces=True, getEnergy=True).getForces(
-                asNumpy=True
-            )
-            energy = self._context.getState(getEnergy=True).getPotentialEnergy()
+            forces = self._context.getState(getForces=True, getEnergy=True).getForces(asNumpy=True).value_in_unit(mm.unit.kilojoule_per_mole / mm.unit.angstrom)
+            energy = self._context.getState(getEnergy=True).getPotentialEnergy().value_in_unit(mm.unit.kilojoule_per_mole)
 
             # Store the forces and energy in the results dictionary
-            self.results["forces"] = forces * units.kJ / units.mol / units.nm
+            self.results["forces"] = forces * units.kJ / units.mol / units.Angstrom
+            #forces * units.kJ / units.mol / units.nm
             self.results["energy"] = energy * units.kJ / units.mol
